@@ -8,7 +8,8 @@ import (
 	"strings"
 )
 
-const editErrorMassage = "incorrect input\n\n" + "method signature: /edit__insurance__life {uint} {life in JSON}"
+const editSignature = "method signature: /edit__insurance__life {uint} {life in JSON}"
+const editErrorMassage = "incorrect input\n\n" + editSignature
 
 func (telegramLifeCommander *TelegramLifeCommander) Edit(inputMessage *tgbotapi.Message) {
 

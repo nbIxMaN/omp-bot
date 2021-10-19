@@ -40,6 +40,8 @@ func (telegramLifeCommander *TelegramLifeCommander) HandleCallback(callback *tgb
 	switch callbackPath.CallbackName {
 	case "list":
 		telegramLifeCommander.CallbackList(callback, callbackPath)
+	default:
+		telegramLifeCommander.sendError(callback.Message, "incorrect callback")
 	}
 }
 
@@ -57,6 +59,8 @@ func (telegramLifeCommander *TelegramLifeCommander) HandleCommand(inputMessage *
 		telegramLifeCommander.New(inputMessage)
 	case "edit":
 		telegramLifeCommander.Edit(inputMessage)
+	default:
+		telegramLifeCommander.sendError(inputMessage, "unknown command, use /help for get commands list")
 	}
 }
 

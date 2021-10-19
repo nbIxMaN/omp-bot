@@ -19,7 +19,7 @@ func (telegramLifeCommander *TelegramLifeCommander) List(inputMessage *tgbotapi.
 	lifes, err := telegramLifeCommander.lifeService.List(0, limit)
 	outputMsgText := header + lifesToString(lifes...)
 
-	message := tgbotapi.NewMessage(inputMessage.Chat.ID, header+outputMsgText)
+	message := tgbotapi.NewMessage(inputMessage.Chat.ID, outputMsgText)
 
 	message.ReplyMarkup = tgbotapi.NewInlineKeyboardMarkup(
 		tgbotapi.NewInlineKeyboardRow(

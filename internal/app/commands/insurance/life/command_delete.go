@@ -5,7 +5,8 @@ import (
 	"strconv"
 )
 
-const deleteErrorMassage = "incorrect input\n\n" + "method signature: /delete__insurance__life {uint}"
+const deleteSignature = "method signature: /delete__insurance__life {uint}"
+const deleteErrorMassage = "incorrect input\n\n" + deleteSignature
 
 func (telegramLifeCommander *TelegramLifeCommander) Delete(inputMessage *tgbotapi.Message) {
 
@@ -13,6 +14,7 @@ func (telegramLifeCommander *TelegramLifeCommander) Delete(inputMessage *tgbotap
 	idx, err := strconv.Atoi(args)
 	if err != nil || idx < 0 {
 		telegramLifeCommander.sendError(inputMessage, deleteErrorMassage)
+		return
 	}
 
 	if result, err := telegramLifeCommander.lifeService.Remove(uint64(idx)); result {

@@ -7,7 +7,8 @@ import (
 	"strconv"
 )
 
-const newErrorMassage = "incorrect input\n\n" + "method signature: /new__insurance__life {life in JSON}"
+const newSignature = "method signature: /new__insurance__life {life in JSON}"
+const newErrorMassage = "incorrect input\n\n" + newSignature
 
 func (telegramLifeCommander *TelegramLifeCommander) New(inputMessage *tgbotapi.Message) {
 

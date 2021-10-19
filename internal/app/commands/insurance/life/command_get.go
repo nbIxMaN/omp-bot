@@ -6,7 +6,8 @@ import (
 	"strconv"
 )
 
-const getErrorMassage = "incorrect input\n\n" + "method signature: /get__insurance__life {uint}"
+const getSignature = "method signature: /get__insurance__life {uint}"
+const getErrorMassage = "incorrect input\n\n" + getSignature
 
 func (telegramLifeCommander *TelegramLifeCommander) Get(inputMessage *tgbotapi.Message) {
 
