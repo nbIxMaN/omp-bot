@@ -38,7 +38,7 @@ func NewTelegramLifeCommander(bot *tgbotapi.BotAPI, lifeService LifeService) *Te
 
 func (telegramLifeCommander *TelegramLifeCommander) HandleCallback(callback *tgbotapi.CallbackQuery, callbackPath path.CallbackPath) {
 	switch callbackPath.CallbackName {
-	case "list":
+	case ListCommand:
 		telegramLifeCommander.CallbackList(callback, callbackPath)
 	default:
 		telegramLifeCommander.sendError(callback.Message, "incorrect callback")
@@ -47,17 +47,17 @@ func (telegramLifeCommander *TelegramLifeCommander) HandleCallback(callback *tgb
 
 func (telegramLifeCommander *TelegramLifeCommander) HandleCommand(inputMessage *tgbotapi.Message, commandPath path.CommandPath) {
 	switch commandPath.CommandName {
-	case "help":
+	case HelpCommand:
 		telegramLifeCommander.Help(inputMessage)
-	case "get":
+	case GetCommand:
 		telegramLifeCommander.Get(inputMessage)
-	case "list":
+	case ListCommand:
 		telegramLifeCommander.List(inputMessage)
-	case "delete":
+	case DeleteCommand:
 		telegramLifeCommander.Delete(inputMessage)
-	case "new":
+	case NewCommand:
 		telegramLifeCommander.New(inputMessage)
-	case "edit":
+	case EditCommand:
 		telegramLifeCommander.Edit(inputMessage)
 	default:
 		telegramLifeCommander.sendError(inputMessage, "unknown command, use /help for get commands list")

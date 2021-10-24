@@ -1,7 +1,7 @@
 package life
 
 import (
-	"errors"
+	"github.com/ozonmp/omp-bot/internal/errors/insurance/life"
 	"github.com/ozonmp/omp-bot/internal/model/insurance"
 )
 
@@ -22,12 +22,12 @@ func NewDummyLifeService() *DummyLifeService {
 }
 
 func (mapLifeService *DummyLifeService) findById(LifeID uint64) (int, error) {
-	for i, life := range mapLifeService.lifeStorage {
-		if life.Id == LifeID {
+	for i, lifeObject := range mapLifeService.lifeStorage {
+		if lifeObject.Id == LifeID {
 			return i, nil
 		}
 	}
-	return -1, errors.New("not found")
+	return -1, life.NotFoundError
 }
 
 func (mapLifeService *DummyLifeService) Describe(LifeID uint64) (*insurance.Life, error) {
@@ -43,11 +43,11 @@ func (mapLifeService *DummyLifeService) List(cursor uint64, limit uint64) ([]ins
 	lifeStorageLast := uint64(len(mapLifeService.lifeStorage))
 
 	if lifeStorageLast == 0 {
-		return mapLifeService.lifeStorage, errors.New("last page")
+		return mapLifeService.lifeStorage, life.LastPageError
 	}
 
 	if cursor < 0 || cursor >= uint64(len(mapLifeService.lifeStorage)) {
-		return nil, errors.New("incorrect position")
+		return nil, life.IncorrectPositionError
 	}
 
 	var err error
@@ -55,7 +55,7 @@ func (mapLifeService *DummyLifeService) List(cursor uint64, limit uint64) ([]ins
 
 	if last >= lifeStorageLast {
 		last = lifeStorageLast
-		err = errors.New("last page")
+		err = life.LastPageError
 	}
 
 	return mapLifeService.lifeStorage[cursor:last], err

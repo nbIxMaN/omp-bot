@@ -2,13 +2,19 @@ package life
 
 import (
 	"encoding/json"
+	"fmt"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 	"github.com/ozonmp/omp-bot/internal/app/path"
 	"github.com/ozonmp/omp-bot/internal/model/insurance"
+	"strings"
 )
 
-const limit = 3
-const header = "Lifes list: \n\n"
+const (
+	limit             = 3
+	header            = "Lifes list: \n\n"
+	nextPageTitle     = "Next page"
+	previousPageTitle = "Previous page"
+)
 
 type CallbackListData struct {
 	Pointer uint64 `json:"pointer"`
@@ -57,12 +63,12 @@ func getButtons(pointer uint64, err error) []tgbotapi.InlineKeyboardButton {
 
 	if pointer > 0 {
 		buttons = append(buttons,
-			tgbotapi.NewInlineKeyboardButtonData("Previous page", getCallBackPath(pointer-limit).String()))
+			tgbotapi.NewInlineKeyboardButtonData(previousPageTitle, getCallBackPath(pointer-limit).String()))
 	}
 
 	if err == nil {
 		buttons = append(buttons,
-			tgbotapi.NewInlineKeyboardButtonData("Next page", getCallBackPath(pointer+limit).String()))
+			tgbotapi.NewInlineKeyboardButtonData(nextPageTitle, getCallBackPath(pointer+limit).String()))
 	}
 
 	return buttons
@@ -84,11 +90,10 @@ func getCallBackPath(pointer uint64) path.CallbackPath {
 }
 
 func lifesToString(lifes ...insurance.Life) string {
-	outputMsgText := ""
+	var outputMsgText strings.Builder
 	for _, life := range lifes {
 		lifeJson, _ := json.Marshal(life)
-		outputMsgText += string(lifeJson)
-		outputMsgText += "\n"
+		fmt.Fprintf(&outputMsgText, "%s\n", string(lifeJson))
 	}
-	return outputMsgText
+	return outputMsgText.String()
 }
